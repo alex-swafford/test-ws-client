@@ -43,11 +43,15 @@ func receiveHandler(connection *websocket.Conn) {
 
 func main() {
 
-	// host := os.Getenv("ws_host_to_test")
+	host := os.Getenv("ws_host_to_test")
+
+	if host == "" {
+		host = "localhost:8080"
+	}
 
 	done = make(chan interface{}) // Channel to indicate that the receiverHandler is done
 
-	socketUrl := "ws://localhost:8080" + "/ws"
+	socketUrl := "ws://" + host + "/ws"
 	conn, _, err := websocket.DefaultDialer.Dial(socketUrl, nil)
 	if err != nil {
 		log.Fatal("Error connecting to Websocket Server:", err)
